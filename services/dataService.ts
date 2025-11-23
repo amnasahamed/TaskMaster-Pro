@@ -3,7 +3,8 @@ import PocketBase from 'pocketbase';
 import { Assignment, AssignmentStatus, AssignmentType, AssignmentPriority, Student, Writer } from '../types';
 
 // Initialize PocketBase
-const pb = new PocketBase(import.meta.env.VITE_POCKETBASE_URL || 'http://127.0.0.1:8090');
+const pbUrl = import.meta.env.VITE_POCKETBASE_URL || `${window.location.protocol}//${window.location.hostname}:8090`;
+const pb = new PocketBase(pbUrl);
 
 // Collection Names
 const COLLECTIONS = {

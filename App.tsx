@@ -1,8 +1,9 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
 import { isAuthenticated } from './services/authService';
+import { seedData } from './services/dataService';
 
 // Lazy Load Components for Performance
 const Dashboard = React.lazy(() => import('./components/Dashboard'));
@@ -24,7 +25,7 @@ const LoadingScreen = () => (
 );
 
 // Protected Route Wrapper
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
   if (!isAuthenticated()) {
@@ -35,6 +36,11 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 };
 
 const App: React.FC = () => {
+  useEffect(() => {
+    // Attempt to seed data on app start
+    seedData().catch(console.error);
+  }, []);
+
   return (
     <ErrorBoundary>
       <HashRouter>

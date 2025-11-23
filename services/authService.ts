@@ -2,7 +2,8 @@ import PocketBase from 'pocketbase';
 import { User } from '../types';
 
 // Initialize PocketBase (Same instance as dataService ideally, but new instance is fine for now as it's stateless mostly)
-const pb = new PocketBase(import.meta.env.VITE_POCKETBASE_URL || 'http://127.0.0.1:8090');
+const pbUrl = import.meta.env.VITE_POCKETBASE_URL || `${window.location.protocol}//${window.location.hostname}:8090`;
+const pb = new PocketBase(pbUrl);
 
 export const login = async (username: string, pin: string): Promise<User | null> => {
     try {
